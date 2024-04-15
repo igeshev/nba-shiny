@@ -6,11 +6,15 @@ Description: A Shiny app showcasing key insights from Kaggle dataset
 License: MIT + file LICENSE
 Imports: 
     config (>= 0.3.2),
+    dplyr,
     golem (>= 0.4.1),
+    renv,
     shiny (>= 1.8.1.1)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.1
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Depends: 
+    bs4Dash
