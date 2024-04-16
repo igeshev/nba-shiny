@@ -35,31 +35,34 @@ dataManager <- R6::R6Class(
                     abbreviation == team) |> 
       dplyr::pull(logo)
   },
-  get_last_5_games = function(team, selected_seasons){
+  get_last_6_games = function(team, selected_seasons){
     
     team_abb <- self$get_team_abbreviation(team) 
     
+    logo_dims <- '35px'
     self$free_throws |> 
       dplyr::filter(home_team == team_abb |
                       away_team == team_abb,
                     season %in% selected_seasons) |> 
       dplyr::distinct(end_result,game_id, .keep_all = TRUE) |>
       
-      dplyr::slice_max(order_by = game_id, n = 5) |>  
-       dplyr::rowwise() |> 
+      dplyr::slice_max(order_by = game_id, n = 6) |>  
+      dplyr::select(
+        home_team,
+        home_end_score,
+        away_team,
+        away_end_score
+      ) |> print() |> 
+      dplyr::rowwise() |> 
       dplyr::transmute(
-        'Last 5 Games' = 
-          paste0(
-            strong(away_team), 
-          ' <img width = 25px height = 25px src = ',
-          self$get_team_logo(away_team),
-          '> ',
-          end_result,
-          ' <img width = 25px height = 25px src = ',
-          self$get_team_logo(home_team),
-          '> ',
-          strong(home_team)
-          )
+        home_team = 
+          paste0('<img width =', logo_dims, 'height =', logo_dims ,' src = ',
+                 self$get_team_logo(home_team), '> ', 
+                 strong(home_team), ': ', home_end_score),
+        away_team =
+          paste0('<img width =', logo_dims, 'height =', logo_dims ,' src = ',
+                 self$get_team_logo(away_team), '> ', 
+                 strong(away_team), ': ', away_end_score)
       ) |> 
       dplyr::ungroup()
     

@@ -15,6 +15,7 @@ div[id^='highlights-filters-highlights_filters'] .card-body{
 .app_title{
   padding: 0px;
   font-size: 32px;
+  font-family: 'NBA';
 }
 
 /* apply button */
@@ -25,11 +26,11 @@ button[id^='highlights'] > .btn-success.focus, .btn-success:focus , .btn-success
 }
 nav.main-header.navbar.navbar-expand.navbar-light.navbar-white {
   font-size: 24px;
-  font-family: 'NBA';
   letter-spacing: 1px;
+  text-transform: capitalize;
   padding: 6px 0 !important;
   padding-left: 42px !important;
-  justify-content: left;
+  justify-content: space-between;
   
 }
 
@@ -53,8 +54,11 @@ nav > ul:last-of-type
 }
 
 nav > ul.navbar-nav.sidebar-menu {
-  justify-content: left;
-  margin-left: 40px;
+  justify-content: right;
+  margin-right: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  
 }
 
 .navbar-light .navbar-nav .nav-link

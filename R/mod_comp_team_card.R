@@ -24,7 +24,7 @@ mod_comp_team_card_ui <- function(id){
         column(2,
                htmlOutput(ns('team_logo'))
         ),
-        column(8,
+        column(10,
        
 
                  uiOutput(ns('team_stats')),
@@ -33,9 +33,6 @@ mod_comp_team_card_ui <- function(id){
 
             
                  
-        ),
-        column(2,align = 'right',
-               DT::DTOutput(ns('last_5_games'))
         )
         
       )
@@ -125,39 +122,17 @@ mod_comp_team_card_server <- function(id, data, pageFilters){
         theme_linedraw() + 
         xlab('Season') + 
         ylab('Win Rate (%)') +
-        theme(legend.position="bottom") +
-        theme(legend.title=element_blank()) + 
+        theme(legend.position="bottom",
+              axis.text=element_text(size=12),
+              axis.title=element_text(size=14,face="bold"),
+              legend.title=element_blank(),
+              legend.text =element_text(size=14)) + 
         scale_color_manual(values=c("#CC6666", "#9999CC"))
         
     
 
     })
     
-    
-    output$last_5_games <- DT::renderDataTable({
-      
-      pageFilters$trigger$render
-      
-      data$get_last_5_games(pageFilters$filter$selected_team,
-                            pageFilters$filter$selected_season) |> 
-        DT::datatable(
-          escape = FALSE,
-          rownames = FALSE,
-          extensions = 'Responsive',
-          callback = htmlwidgets::JS(
-            "$('table.dataTable.no-footer').css('border-bottom','none');
-            $('table.dataTable th').css('border-bottom','none');
-            
-            "
-          ),
-          options(list( 
-            dom = 't' ,
-            ordering = FALSE)),
-          class = list(stripe= FALSE)
-        )
-      
-      
-    })
     
     output$team_logo <- renderText({
       pageFilters$trigger$render

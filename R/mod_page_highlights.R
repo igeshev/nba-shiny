@@ -10,9 +10,16 @@
 mod_page_highlights_ui <- function(id){
   ns <- NS(id)
   tagList(
+    
     fluidRow(
              mod_filters_highlights_ui(ns('filters')),
              mod_comp_team_card_ui(ns('team_stats'))
+    ),
+    fluidRow( mod_comp_last_games_ui(ns('last_games')) ),
+    fluidRow(
+      hr(style = 'display:inline-block; width: 40%;'),
+      span('PLAYERS', class = 'app_title'),
+      hr(style = 'display:inline-block;  width: 40%;')
     )
  )
 }
@@ -37,12 +44,8 @@ mod_page_highlights_server <- function(id, data){
     mod_filters_highlights_server('filters', data, highlightsPageFilters)
     
     mod_comp_team_card_server('team_stats', data, highlightsPageFilters)
+    mod_comp_last_games_server('last_games', data, highlightsPageFilters)
  
   })
 }
     
-## To be copied in the UI
-# mod_page_highlights_ui("page_highlights_1")
-    
-## To be copied in the server
-# mod_page_highlights_server("page_highlights_1")
