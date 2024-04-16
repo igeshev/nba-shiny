@@ -1,0 +1,72 @@
+:root {
+  --nba_blue: #17408B;
+  --nba_red: #c9082a;
+}
+
+
+@font-face {
+  font-family: "NBA";
+  src: url(nba-lakers.ttf) format("truetype");
+}
+
+div[id^='highlights-filters-highlights_filters'] .card-body{
+  min-height: 350px;
+}
+.app_title{
+  padding: 0px;
+  font-size: 32px;
+}
+
+/* apply button */
+button[id^='highlights'] > .btn-success.focus, .btn-success:focus , .btn-success{
+  background-color: var(--nba_blue);
+  border-color:  var(--nba_blue);
+  
+}
+nav.main-header.navbar.navbar-expand.navbar-light.navbar-white {
+  font-size: 24px;
+  font-family: 'NBA';
+  letter-spacing: 1px;
+  padding: 6px 0 !important;
+  padding-left: 42px !important;
+  justify-content: left;
+  
+}
+
+.layout-top-nav .wrapper > .content-wrapper, .main-footer , .main-header{
+  margin-top: 0;
+}
+
+.layout-navbar-fixed .wrapper .main-header{
+  position: relative !important;
+}
+
+.main-header .navbar-nav .nav-item{
+  margin: 0 5px;
+}
+
+/* remove hidden elements -fixes tabs order */
+nav > ul:first-of-type,
+nav > ul:last-of-type
+ {
+  display:none;
+}
+
+nav > ul.navbar-nav.sidebar-menu {
+  justify-content: left;
+  margin-left: 40px;
+}
+
+.navbar-light .navbar-nav .nav-link
+{
+  margin-bottom: 8px;
+}
+
+/* navbar item on focus */
+.navbar-light .navbar-nav .active>.nav-link, 
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .show>.nav-link{
+  border-bottom: 2px solid var(--nba_red);
+  
+}

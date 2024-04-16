@@ -9,8 +9,41 @@ app_ui <- function(request) {
     # Leave this function for adding external resources
     golem_add_external_resources(),
     # Your application UI logic
-    fluidPage(
-      h1("nba.dashboard")
+    dashboardPage(
+      header =  
+        bs4DashNavbar(
+         title = tags$span(class = "app_title",'NBA Insights'),
+         compact = FALSE,
+         border = TRUE,
+         bs4Dash::navbarMenu(
+           navbarTab(
+             text = 'Highlights',
+             tabName = 'highlights'
+           ),
+           navbarTab(
+             text = 'Deep Dive',
+             tabName = 'deepdive'
+           )
+         ),
+         fixed = TRUE
+      ),
+      body = dashboardBody(
+        tabItems(
+          tabItem(
+            tabName = 'highlights',
+            mod_page_highlights_ui('highlights')
+            
+          ),
+          tabItem(
+            tabName = 'deepdive',
+            mod_page_deepdive_ui('deepdive')
+          )
+        )
+      ) ,
+      sidebar = dashboardSidebar(disable = TRUE),
+      dark = NULL,
+      help = NULL
+      
     )
   )
 }
