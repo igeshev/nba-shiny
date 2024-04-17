@@ -45,18 +45,25 @@ mod_comp_last_games_server <- function(id, data, pageFilters){
             width = 2,
             closable = FALSE,
             collapsible = FALSE,
-            HTML(
-              paste0(
-                row$home_team,
-                '<br>',
-                row$away_team
+            fluidRow(
+              column(6, HTML(paste0(row$home_team, '<br>', row$away_team ))),
+              column(6, div(style = "font-family: 'NBA';
+                            display:flex; justify-content:center; align-items:center;
+                            font-size:42px; font-weight: 400; " ,
+                            if(row$won){
+                              span(style = "color: var(--nba_blue);opacity: 0.8;", 'Win')
+                            } else{
+                              span(style = "color: var(--nba_red);opacity: 0.6;", 'Loss')
+                            }
+
+              )
               )
             )
-      
           )
-           }
+          
+        }
       )
-
+      
           tagList(fluidRow(last_games))
       
     })

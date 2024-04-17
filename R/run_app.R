@@ -38,7 +38,7 @@ global <- quote({
   
   nba_teams_lu <- read.csv(paste0(DATA_PATH, 'nba_teams_lu.csv'))
  
-  # free_throws <- read.csv(paste0(DATA_PATH, 'free_throws.csv')) 
+  free_throws <- read.csv(paste0(DATA_PATH, 'free_throws.csv'))
   
   players_lu <- read.csv(paste0(DATA_PATH, 'players_lu.csv'))
   

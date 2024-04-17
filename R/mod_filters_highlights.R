@@ -13,34 +13,49 @@ mod_filters_highlights_ui <- function(id){
  
     bs4Dash::box(
       id = ns('highlights_filters'),
-      width = 2,
+      width = 12,
       collapsible = TRUE,
       headerBorder = FALSE,
       title = 'Filters',
       fluidRow(
-        column(12,
+        column(3,
                selectInput(
                  inputId = ns('selected_team'),
                  label = "Select a team",
                  choices = NULL
                ),
-               selectInput(
+                bs4Dash::actionButton(
+                 inputId = ns('apply_changes'),
+                 label = 'Apply Filters',
+                 status = 'success',
+                 width = '70%'
+               )
+               
+        ),
+        column(4,
+                selectInput(
                  inputId = ns('selected_seasons'),
                  label = 'Select Season',
                  choices = NULL,
                  multiple = TRUE
-               ),
-               bs4Dash::actionButton(
-                 inputId = ns('apply_changes'),
-                 label = 'Apply Filters',
-                 status = 'success',
-                 width = '50%'
                )
-               ),
-
+        ),
+        column(2,
+               fluidRow(
+                 style = 'margin-top: 28px;
+                 margin-left:10px;',
+                 checkboxInput(
+                   inputId = ns('last_season_only'),
+                   'Last Season Only',
+                   value =FALSE
+                 )
+               )
+           
+               )
+        
       )
     )
-  
+    
   )
 }
     
@@ -59,13 +74,23 @@ mod_filters_highlights_server <- function(id, data, pageFilters){
       selected = pageFilters$default_filters$selected_team
     )
     
-    observeEvent(input$selected_team, ignoreInit = TRUE, {
+  
+    observeEvent(c(
+      input$last_season_only,
+      input$selected_team), ignoreInit = TRUE, {
       
+      choices <- data$get_available_seasons(input$selected_team) 
+      if(isTruthy(input$last_season_only)){
+        selected <- max(choices)
+      }else{
+        selected <- choices
+      }
+                      
       updateSelectInput(
         session =session,
         inputId = 'selected_seasons',
-        choices = data$get_available_seasons(input$selected_team),
-        selected = data$get_available_seasons(input$selected_team)
+        choices = choices,
+        selected = selected
       )
       
     })

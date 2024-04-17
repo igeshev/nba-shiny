@@ -51,8 +51,9 @@ dataManager <- R6::R6Class(
         home_team,
         home_end_score,
         away_team,
-        away_end_score
-      ) |> print() |> 
+        away_end_score,
+        winner
+      ) |> 
       dplyr::rowwise() |> 
       dplyr::transmute(
         home_team = 
@@ -62,7 +63,8 @@ dataManager <- R6::R6Class(
         away_team =
           paste0('<img width =', logo_dims, 'height =', logo_dims ,' src = ',
                  self$get_team_logo(away_team), '> ', 
-                 strong(away_team), ': ', away_end_score)
+                 strong(away_team), ': ', away_end_score),
+        won = winner == team_abb
       ) |> 
       dplyr::ungroup()
     
@@ -136,6 +138,46 @@ dataManager <- R6::R6Class(
       ) |> 
       dplyr::mutate(team = team_abb)
     
+  },
+  get_players_stats_table = function(team, selected_seasons){
+    
+    team_abb <- self$get_team_abbreviation(team) 
+    
+    self$free_throws |> 
+      dplyr::filter(shooting_team == team_abb,
+                    season %in% selected_seasons) |> 
+      dplyr::group_by( player ) |> 
+      dplyr::summarise(
+        total_shots = sum(!is.na(shot_made)),
+        shot_conversion_perc = sum(shot_made)/total_shots,
+        game_winning_shots = sum(shooting_team == winner,
+                                 period == 4,
+                                 (home_end_score == home_score |
+                                 away_end_score == away_score)
+                                 
+                                 )
+      ) |> 
+      dplyr::arrange(desc(total_shots)) |> 
+      dplyr::rename_with(.fn = \(x){
+        stringr::str_replace_all(
+          stringr::str_to_title(x),
+          c('_' = ' ',
+            'perc' = '%'
+          )
+          )
+        })
+  
+    
+      
+      
+    
+  },
+  get_player_id_from_name = function(name){
+    
+    self$players_lu |> 
+      dplyr::filter(player_name == name) |> 
+      dplyr::distinct() |> 
+      dplyr::pull(player_id)
   }
   )
   
@@ -164,9 +206,15 @@ pageFilters <- R6::R6Class(
 internalFilters <- R6::R6Class(
   classname = 'internalFilters',
   public = list(
-    applied_filters = shiny::reactiveValues(),
-  initialize = function(){
-    self$applied_filters <- NULL
+    filter = reactiveValues(),
+    initialize = function(){},
+    set_filter = function(filter_name, filter_value){
+      
+    self$filter[[filter_name]] <- filter_value
+  },
+  get_filter = function(filter_name){
+    # if(is.null(filter_name)) return(NULL)
+    self$filter[[filter_name]]
   }
   )
 )

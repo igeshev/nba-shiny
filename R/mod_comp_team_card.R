@@ -12,7 +12,7 @@ mod_comp_team_card_ui <- function(id){
   tagList(
     bs4Dash::box(
       title = textOutput(ns('team_stats_title')),
-      width = 10,
+      width = 12,
       collapsible = FALSE,
       collapsed = FALSE,
       headerBorder = FALSE,
@@ -28,7 +28,7 @@ mod_comp_team_card_ui <- function(id){
        
 
                  uiOutput(ns('team_stats')),
-                 plotOutput(ns('freethrow_performance_over_time'), height = '250px')
+                 plotOutput(ns('freethrow_performance_over_time'), height = '300px')
             
 
             
