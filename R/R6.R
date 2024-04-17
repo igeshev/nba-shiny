@@ -191,8 +191,8 @@ dataManager <- R6::R6Class(
 )
 
 
-pageFilters <- R6::R6Class(
-  classname = 'pageFilters',
+globalFilters <- R6::R6Class(
+  classname = 'globalFilters',
   public = list(
     # Track & trigger shiny event
     trigger = shiny::reactiveValues(render = 0),

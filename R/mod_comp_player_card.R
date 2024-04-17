@@ -20,7 +20,7 @@ mod_comp_player_card_ui <- function(id){
 #' comp_player_card Server Functions
 #'
 #' @noRd 
-mod_comp_player_card_server <- function(id, data , pageFilters, internalFilters){
+mod_comp_player_card_server <- function(id, data , globalFilters, internalFilters){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
@@ -30,7 +30,7 @@ mod_comp_player_card_server <- function(id, data , pageFilters, internalFilters)
     
     output$user_box <- renderUI({
       req(internalFilters$get_filter('player_dt_name'))
-      pageFilters$trigger$render
+      globalFilters$trigger$render
       
       
       player_name <- internalFilters$get_filter('player_dt_name')
@@ -93,8 +93,8 @@ mod_comp_player_card_server <- function(id, data , pageFilters, internalFilters)
         collapsible = FALSE,
         selectInput(inputId = ns('player_season'), 
                     label = 'Season',
-                    choices = pageFilters$filter$selected_seasons,
-                    selected = max(pageFilters$filter$selected_seasons)
+                    choices = globalFilters$filter$selected_seasons,
+                    selected = max(globalFilters$filter$selected_seasons)
         ),
         DT::DTOutput(ns('player_stats_by_season')),
 

@@ -20,7 +20,7 @@ mod_comp_last_games_ui <- function(id){
 #' comp_last_games Server Functions
 #'
 #' @noRd 
-mod_comp_last_games_server <- function(id, data, pageFilters){
+mod_comp_last_games_server <- function(id, data, globalFilters){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
  
@@ -28,11 +28,11 @@ mod_comp_last_games_server <- function(id, data, pageFilters){
     
     output$last_6_games <- renderUI({
       
-      pageFilters$trigger$render
+      globalFilters$trigger$render
       
-      data <- data$get_last_5_games(pageFilters$filter$selected_team,
-                            pageFilters$filter$selected_season,
-                            pageFilters$filter$selected_gametype) 
+      data <- data$get_last_5_games(globalFilters$filter$selected_team,
+                            globalFilters$filter$selected_season,
+                            globalFilters$filter$selected_gametype) 
       
       
       

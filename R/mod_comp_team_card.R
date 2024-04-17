@@ -39,31 +39,31 @@ mod_comp_team_card_ui <- function(id){
 #' comp_team_card Server Functions
 #'
 #' @noRd 
-mod_comp_team_card_server <- function(id, data, pageFilters){
+mod_comp_team_card_server <- function(id, data, globalFilters){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
     output$team_stats_title <- renderText({
-      paste0('Team Stats for: ', pageFilters$filter$selected_team)
+      paste0('Team Stats for: ', globalFilters$filter$selected_team)
     })
     
     
     output$team_stats <- renderUI({
 
-      pageFilters$trigger$render
-      all_time_wr <- data$get_team_stats_wr(pageFilters$filter$selected_team, 
-                             pageFilters$filter$selected_seasons,
-                             pageFilters$filter$selected_gametype,
+      globalFilters$trigger$render
+      all_time_wr <- data$get_team_stats_wr(globalFilters$filter$selected_team, 
+                             globalFilters$filter$selected_seasons,
+                             globalFilters$filter$selected_gametype,
                              type = 'all_time')
-      last_selected_season <- data$get_team_stats_wr(pageFilters$filter$selected_team, 
-                                               pageFilters$filter$selected_seasons,
-                                               pageFilters$filter$selected_gametype,
+      last_selected_season <- data$get_team_stats_wr(globalFilters$filter$selected_team, 
+                                               globalFilters$filter$selected_seasons,
+                                               globalFilters$filter$selected_gametype,
                                                type = 'last_selected_season')
       
       home_and_away_wr <- data$get_home_vs_away_winrate(
-        pageFilters$filter$selected_team, 
-        pageFilters$filter$selected_seasons,
-        pageFilters$filter$selected_gametype
+        globalFilters$filter$selected_team, 
+        globalFilters$filter$selected_seasons,
+        globalFilters$filter$selected_gametype
       )
 
 
@@ -107,12 +107,12 @@ mod_comp_team_card_server <- function(id, data, pageFilters){
     
     output$freethrow_performance_over_time <- renderPlot({
 
-       pageFilters$trigger$render
+       globalFilters$trigger$render
       
       
-      data <- data$get_winrate_over_time(pageFilters$filter$selected_team,
-                                    pageFilters$filter$selected_season,
-                                    pageFilters$filter$selected_gametype)
+      data <- data$get_winrate_over_time(globalFilters$filter$selected_team,
+                                    globalFilters$filter$selected_season,
+                                    globalFilters$filter$selected_gametype)
       
       ggplot(data,
              mapping = aes(x = season, y = winrate_over_time, group = type, color = type)) + 
@@ -134,11 +134,11 @@ mod_comp_team_card_server <- function(id, data, pageFilters){
     
     
     output$team_logo <- renderText({
-      pageFilters$trigger$render
+      globalFilters$trigger$render
       
       HTML(
         paste0('<img style = "margin-top:60px;" src = ',
-               data$get_team_logo(pageFilters$filter$selected_team),
+               data$get_team_logo(globalFilters$filter$selected_team),
                '  width = 200px height = 200px>' ))
     })
   })

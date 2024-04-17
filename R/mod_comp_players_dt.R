@@ -26,17 +26,17 @@ mod_comp_players_dt_ui <- function(id){
 #' comp_players_dt Server Functions
 #'
 #' @noRd 
-mod_comp_players_dt_server <- function(id, data, pageFilters, internalFilters){
+mod_comp_players_dt_server <- function(id, data, globalFilters, internalFilters){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
     
     output$player_dt <- DT::renderDataTable({
-      pageFilters$trigger$render
+      globalFilters$trigger$render
       
-      data$get_players_stats_table(pageFilters$filter$selected_team,
-                                   pageFilters$filter$selected_seasons,
-                                   pageFilters$filter$selected_gametype) |> 
+      data$get_players_stats_table(globalFilters$filter$selected_team,
+                                   globalFilters$filter$selected_seasons,
+                                   globalFilters$filter$selected_gametype) |> 
         
         DT::datatable( 
           extensions = c('Scroller','Responsive'),
@@ -66,9 +66,9 @@ mod_comp_players_dt_server <- function(id, data, pageFilters, internalFilters){
     
     observeEvent(input$player_dt_rows_selected,ignoreNULL = TRUE,{
       
-      selected_row <- data$get_players_stats_table(pageFilters$filter$selected_team,
-                                                   pageFilters$filter$selected_seasons,
-                                                   pageFilters$filter$selected_gametype) |> 
+      selected_row <- data$get_players_stats_table(globalFilters$filter$selected_team,
+                                                   globalFilters$filter$selected_seasons,
+                                                   globalFilters$filter$selected_gametype) |> 
 
         dplyr::slice(as.integer(input$player_dt_rows_selected)) 
       

@@ -75,7 +75,7 @@ mod_filters_highlights_ui <- function(id){
 #' filters_highlights Server Functions
 #'
 #' @noRd 
-mod_filters_highlights_server <- function(id, data, pageFilters){
+mod_filters_highlights_server <- function(id, data, globalFilters){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
@@ -83,8 +83,8 @@ mod_filters_highlights_server <- function(id, data, pageFilters){
     updateSelectInput(
       session = session,
       inputId = 'selected_team',
-      choices = pageFilters$default_filters$available_teams,
-      selected = pageFilters$default_filters$selected_team
+      choices = globalFilters$default_filters$available_teams,
+      selected = globalFilters$default_filters$selected_team
     )
     
   
@@ -111,12 +111,12 @@ mod_filters_highlights_server <- function(id, data, pageFilters){
     
     observeEvent(input$apply_changes,{
       # Save selected filters to globally available R6 Class
-      pageFilters$filter$selected_team <- input$selected_team
-      pageFilters$filter$selected_seasons <- input$selected_seasons
-      pageFilters$filter$selected_gametype <- input$selected_gametype
+      globalFilters$filter$selected_team <- input$selected_team
+      globalFilters$filter$selected_seasons <- input$selected_seasons
+      globalFilters$filter$selected_gametype <- input$selected_gametype
       
       # Trigger Rerender for all objects dependant on this R6 class
-      pageFilters$trigger_rerender()
+      globalFilters$trigger_rerender()
       
     })
 

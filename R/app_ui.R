@@ -28,6 +28,7 @@ app_ui <- function(request) {
          fixed = TRUE
       ),
       body = dashboardBody(
+        fluidRow( mod_filters_highlights_ui('filters')),
         tabItems(
           tabItem(
             tabName = 'highlights',
