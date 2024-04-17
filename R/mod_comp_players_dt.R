@@ -35,7 +35,8 @@ mod_comp_players_dt_server <- function(id, data, pageFilters, internalFilters){
       pageFilters$trigger$render
       
       data$get_players_stats_table(pageFilters$filter$selected_team,
-                                   pageFilters$filter$selected_seasons) |> 
+                                   pageFilters$filter$selected_seasons,
+                                   pageFilters$filter$selected_gametype) |> 
         
         DT::datatable( 
           extensions = c('Scroller','Responsive'),
@@ -66,7 +67,9 @@ mod_comp_players_dt_server <- function(id, data, pageFilters, internalFilters){
     observeEvent(input$player_dt_rows_selected,ignoreNULL = TRUE,{
       
       selected_row <- data$get_players_stats_table(pageFilters$filter$selected_team,
-                                                                     pageFilters$filter$selected_seasons) |> 
+                                                   pageFilters$filter$selected_seasons,
+                                                   pageFilters$filter$selected_gametype) |> 
+
         dplyr::slice(as.integer(input$player_dt_rows_selected)) 
       
       

@@ -25,13 +25,8 @@ mod_comp_team_card_ui <- function(id){
                htmlOutput(ns('team_logo'))
         ),
         column(10,
-       
-
-                 uiOutput(ns('team_stats')),
+        uiOutput(ns('team_stats')),
                  plotOutput(ns('freethrow_performance_over_time'), height = '300px')
-            
-
-            
                  
         )
         
@@ -58,14 +53,17 @@ mod_comp_team_card_server <- function(id, data, pageFilters){
       pageFilters$trigger$render
       all_time_wr <- data$get_team_stats_wr(pageFilters$filter$selected_team, 
                              pageFilters$filter$selected_seasons,
+                             pageFilters$filter$selected_gametype,
                              type = 'all_time')
       last_selected_season <- data$get_team_stats_wr(pageFilters$filter$selected_team, 
                                                pageFilters$filter$selected_seasons,
+                                               pageFilters$filter$selected_gametype,
                                                type = 'last_selected_season')
       
       home_and_away_wr <- data$get_home_vs_away_winrate(
         pageFilters$filter$selected_team, 
-        pageFilters$filter$selected_seasons
+        pageFilters$filter$selected_seasons,
+        pageFilters$filter$selected_gametype
       )
 
 
@@ -113,7 +111,8 @@ mod_comp_team_card_server <- function(id, data, pageFilters){
       
       
       data <- data$get_winrate_over_time(pageFilters$filter$selected_team,
-                                    pageFilters$filter$selected_season)
+                                    pageFilters$filter$selected_season,
+                                    pageFilters$filter$selected_gametype)
       
       ggplot(data,
              mapping = aes(x = season, y = winrate_over_time, group = type, color = type)) + 
@@ -138,7 +137,7 @@ mod_comp_team_card_server <- function(id, data, pageFilters){
       pageFilters$trigger$render
       
       HTML(
-        paste0('<img style = "margin-top:50px;" src = ',
+        paste0('<img style = "margin-top:60px;" src = ',
                data$get_team_logo(pageFilters$filter$selected_team),
                '  width = 200px height = 200px>' ))
     })

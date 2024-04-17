@@ -50,7 +50,8 @@ mod_page_highlights_server <- function(id, data){
         available_teams = data$nba_teams_lu[['display_name']],
         selected_team  = data$nba_teams_lu[['display_name']][[1]],
         available_seasons = data$get_available_seasons(data$nba_teams_lu[['display_name']][1]),
-        selected_seasons = data$get_available_seasons(data$nba_teams_lu[['display_name']][1])
+        selected_seasons = data$get_available_seasons(data$nba_teams_lu[['display_name']][1]),
+        selected_gametype = c('regular','playoffs')
       )
     )
     

@@ -23,14 +23,7 @@ mod_filters_highlights_ui <- function(id){
                  inputId = ns('selected_team'),
                  label = "Select a team",
                  choices = NULL
-               ),
-                bs4Dash::actionButton(
-                 inputId = ns('apply_changes'),
-                 label = 'Apply Filters',
-                 status = 'success',
-                 width = '70%'
-               )
-               
+               ) 
         ),
         column(4,
                 selectInput(
@@ -40,6 +33,17 @@ mod_filters_highlights_ui <- function(id){
                  multiple = TRUE
                )
         ),
+
+        column(2,
+               selectInput(
+                 inputId = ns('selected_gametype'),
+                 label = 'Select Game Type',
+                 choices = c('regular', 'playoffs'),
+                 multiple = TRUE,
+                 selected = c('regular', 'playoffs')
+               )
+        ),
+        
         column(2,
                fluidRow(
                  style = 'margin-top: 28px;
@@ -50,9 +54,18 @@ mod_filters_highlights_ui <- function(id){
                    value =FALSE
                  )
                )
-           
-               )
-        
+           )
+        ),
+      fluidRow(
+        column(12,
+               
+                bs4Dash::actionButton(
+                 inputId = ns('apply_changes'),
+                 label = 'Apply Filters',
+                 status = 'success',
+                 width = '10%'
+                )
+        )
       )
     )
     
@@ -100,6 +113,7 @@ mod_filters_highlights_server <- function(id, data, pageFilters){
       # Save selected filters to globally available R6 Class
       pageFilters$filter$selected_team <- input$selected_team
       pageFilters$filter$selected_seasons <- input$selected_seasons
+      pageFilters$filter$selected_gametype <- input$selected_gametype
       
       # Trigger Rerender for all objects dependant on this R6 class
       pageFilters$trigger_rerender()

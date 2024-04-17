@@ -35,7 +35,7 @@ dataManager <- R6::R6Class(
                     abbreviation == team) |> 
       dplyr::pull(logo)
   },
-  get_last_6_games = function(team, selected_seasons){
+  get_last_5_games = function(team, selected_seasons,selected_gametype){
     
     team_abb <- self$get_team_abbreviation(team) 
     
@@ -43,10 +43,11 @@ dataManager <- R6::R6Class(
     self$free_throws |> 
       dplyr::filter(home_team == team_abb |
                       away_team == team_abb,
-                    season %in% selected_seasons) |> 
+                    season %in% selected_seasons,
+                    playoffs %in% selected_gametype) |> 
       dplyr::distinct(end_result,game_id, .keep_all = TRUE) |>
       
-      dplyr::slice_max(order_by = game_id, n = 6) |>  
+      dplyr::slice_max(order_by = game_id, n = 5) |>  
       dplyr::select(
         home_team,
         home_end_score,
@@ -69,8 +70,7 @@ dataManager <- R6::R6Class(
       dplyr::ungroup()
     
   },
-
-  get_team_stats_wr = function(team, selected_seasons, type = 'all_time'){
+  get_team_stats_wr = function(team, selected_seasons,selected_gametype, type = 'all_time'){
     team_abb <- self$get_team_abbreviation(team) 
     
     assertthat::assert_that(
@@ -86,6 +86,7 @@ dataManager <- R6::R6Class(
     self$free_throws |> 
       dplyr::filter(home_team == team_abb |
                       away_team == team_abb,
+                    playoffs %in% selected_gametype,
                     {if(type!='all_time')season %in% seasons_filter else TRUE}
                     ) |> 
       dplyr::distinct(game_id,winner) |>
@@ -93,13 +94,14 @@ dataManager <- R6::R6Class(
       dplyr::summarise(wr = paste0(round(sum(winner==team_abb)/sum(!is.na(winner))*100, digits =0), '%')) |> 
       dplyr::pull(wr)
   },
-  get_home_vs_away_winrate = function(team, selected_seasons){
+  get_home_vs_away_winrate = function(team, selected_seasons, selected_gametype){
     team_abb <- self$get_team_abbreviation(team) 
     
     self$free_throws |> 
       dplyr::filter(home_team == team_abb |
                       away_team == team_abb,
-                    season %in% selected_seasons) |> 
+                    season %in% selected_seasons,
+                    playoffs %in% selected_gametype) |> 
       dplyr::distinct(home_team, away_team, end_result,game_id, .keep_all = TRUE) |> 
       dplyr::ungroup() |> 
       dplyr::summarise(
@@ -111,14 +113,15 @@ dataManager <- R6::R6Class(
             sum(home_team == team_abb) )*100, digits = 0),'%')
       )
   },
-  get_winrate_over_time = function(team, selected_seasons){
+  get_winrate_over_time = function(team, selected_seasons,selected_gametype){
     
     team_abb <- self$get_team_abbreviation(team) 
     
     self$free_throws |> 
       dplyr::filter(home_team == team_abb |
                       away_team == team_abb,
-                    season %in% selected_seasons) |> 
+                    season %in% selected_seasons,
+                    playoffs %in% selected_gametype) |> 
       dplyr::group_by(season) |> 
       dplyr::distinct(home_team, away_team, end_result, game_id, winner, season) |> 
       dplyr::ungroup() |> 
@@ -139,19 +142,22 @@ dataManager <- R6::R6Class(
       dplyr::mutate(team = team_abb)
     
   },
-  get_players_stats_table = function(team, selected_seasons){
+  get_players_stats_table = function(team, selected_seasons,selected_gametype){
     
     team_abb <- self$get_team_abbreviation(team) 
     
     self$free_throws |> 
-      dplyr::filter(shooting_team == team_abb,
-                    season %in% selected_seasons) |> 
+      
+      dplyr::filter(home_team == team_abb |
+                      away_team == team_abb,
+                    season %in% selected_seasons,
+                    playoffs %in% selected_gametype) |> 
       dplyr::group_by( player ) |> 
       dplyr::summarise(
         total_shots = sum(!is.na(shot_made)),
         shot_conversion_perc = sum(shot_made)/total_shots,
-        game_winning_shots = sum(shooting_team == winner,
-                                 period == 4,
+        game_winning_shots = sum(shooting_team == winner &
+                                 period == 4 &
                                  (home_end_score == home_score |
                                  away_end_score == away_score)
                                  

@@ -30,8 +30,9 @@ mod_comp_last_games_server <- function(id, data, pageFilters){
       
       pageFilters$trigger$render
       
-      data <- data$get_last_6_games(pageFilters$filter$selected_team,
-                            pageFilters$filter$selected_season) 
+      data <- data$get_last_5_games(pageFilters$filter$selected_team,
+                            pageFilters$filter$selected_season,
+                            pageFilters$filter$selected_gametype) 
       
       
       
@@ -39,17 +40,19 @@ mod_comp_last_games_server <- function(id, data, pageFilters){
         .x = 1:nrow(data),
         .f = \(x){
           row <- data[x,]
-          title <- if(x==1)'Most Recent Game' else paste0('Last 6 Games - #',x)
+          title <- paste0('Last 5 Games - #',x)
           box(
             title = title, 
             width = 2,
             closable = FALSE,
             collapsible = FALSE,
+            height = 130,
             fluidRow(
               column(6, HTML(paste0(row$home_team, '<br>', row$away_team ))),
               column(6, div(style = "font-family: 'NBA';
                             display:flex; justify-content:center; align-items:center;
-                            font-size:42px; font-weight: 400; " ,
+                            font-size:42px; font-weight: 400;
+                            " ,
                             if(row$won){
                               span(style = "color: var(--nba_blue);opacity: 0.8;", 'Win')
                             } else{
@@ -64,7 +67,21 @@ mod_comp_last_games_server <- function(id, data, pageFilters){
         }
       )
       
-          tagList(fluidRow(last_games))
+          tagList(fluidRow(
+            box(
+              title = 'Last 5 games WR', 
+              width = 2,
+              closable = FALSE,
+              collapsible = FALSE,
+              height = 130,
+
+                div(style = "font-family: 'NBA';
+                            display:flex; justify-content:space-between; align-items:center;
+                            font-size:32px; font-weight: 400;" ,
+                    'WINS:',as.integer(sum(data$won)),br(),
+                    'LOSSES:',5-as.integer(sum(data$won)))
+            ),
+            last_games))
       
     })
   })

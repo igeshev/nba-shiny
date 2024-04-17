@@ -11,6 +11,8 @@ Imports:
     DT,
     golem (>= 0.4.1),
     hoopR,
+    janitor,
+    pkgload,
     plotly,
     renv,
     shinyjs,
