@@ -32,6 +32,9 @@ button[id^='highlights'] > .btn-success.focus, .btn-success:focus , .btn-success
   border-color:  var(--nba_blue);
   
 }
+
+
+/* NAVBAR STYLES */
 nav.main-header.navbar.navbar-expand.navbar-light.navbar-white {
   letter-spacing: 1px;
   text-transform: capitalize;
@@ -63,7 +66,7 @@ nav > ul:last-of-type
 nav > ul.navbar-nav.sidebar-menu {
   justify-content: right;
   margin-right: 40px;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   
 }

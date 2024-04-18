@@ -17,11 +17,11 @@ app_ui <- function(request) {
           border = TRUE,
           bs4Dash::navbarMenu(
             navbarTab(
-              text = "Highlights",
+              text = "OVERVIEW",
               tabName = "highlights"
             ),
             navbarTab(
-              text = "Deep Dive",
+              text = "DEEP DIVE",
               tabName = "deepdive"
             )
           ),
