@@ -28,8 +28,6 @@ mod_comp_ft_accuracy_by_time_server <- function(id, data, globalFilters) {
     output$ft_by_time_plot <- plotly::renderPlotly({
       globalFilters$trigger$render
 
-
-      print(globalFilters$filter$selected_gametype)
       fig_data <- data$get_ft_accuracy_by_time(
         globalFilters$filter$selected_team,
         globalFilters$filter$selected_seasons,

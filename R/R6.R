@@ -193,7 +193,6 @@ dataManager <- R6::R6Class(
     get_ft_accuracy_by_time = function(team, selected_seasons, selected_gametype, player_names = NULL) {
       team_abb <- self$get_team_abbreviation(team)
 
-      print(player_names)
       data <- self$free_throws |>
         dplyr::filter(
           shooting_team == team_abb,
@@ -218,8 +217,7 @@ dataManager <- R6::R6Class(
         dplyr::summarise(
           shots_accuracy = (sum(shot_made) / sum(!is.na(shot_made)) * 100),
           .groups = "drop"
-        ) |>
-        print()
+        ) 
     }
   )
 )
