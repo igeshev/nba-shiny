@@ -4,87 +4,81 @@
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
-#' @noRd 
+#' @noRd
 #'
-#' @importFrom shiny NS tagList 
-mod_comp_players_dt_ui <- function(id){
+#' @importFrom shiny NS tagList
+mod_comp_players_dt_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    column(6,
-           box(
-             width = 12,
-             collapsible = FALSE,
-             title = strong('Free Throw Shots Statistics By Player'),
-             headerBorder = FALSE,
-             DT::dataTableOutput(ns('player_dt'))
-           )
+    column(
+      6,
+      box(
+        width = 12,
+        collapsible = FALSE,
+        title = strong("Free Throw Shots Statistics By Player"),
+        headerBorder = FALSE,
+        DT::dataTableOutput(ns("player_dt"))
+      )
     )
- 
   )
 }
-    
+
 #' comp_players_dt Server Functions
 #'
-#' @noRd 
-mod_comp_players_dt_server <- function(id, data, globalFilters, internalFilters){
-  moduleServer( id, function(input, output, session){
+#' @noRd
+mod_comp_players_dt_server <- function(id, data, globalFilters, internalFilters) {
+  moduleServer(id, function(input, output, session) {
     ns <- session$ns
-    
-    
+
+
     output$player_dt <- DT::renderDataTable({
       globalFilters$trigger$render
-      
-      data$get_players_stats_table(globalFilters$filter$selected_team,
-                                   globalFilters$filter$selected_seasons,
-                                   globalFilters$filter$selected_gametype) |> 
-        
-        DT::datatable( 
-          extensions = c('Scroller','Responsive'),
-          selection = list(mode = 'single', selected = 1),
-          rownames =FALSE,
-          filter = 'top',
-          class = list(stripe= FALSE),
+
+      data$get_players_stats_table(
+        globalFilters$filter$selected_team,
+        globalFilters$filter$selected_seasons,
+        globalFilters$filter$selected_gametype
+      ) |>
+        DT::datatable(
+          extensions = c("Scroller", "Responsive"),
+          selection = list(mode = "single", selected = 1),
+          rownames = FALSE,
+          filter = "top",
+          class = list(stripe = FALSE),
           options = list(
-            dom = 'toS',
+            dom = "toS",
             deferRender = TRUE,
             scrollY = 300,
             scroller = TRUE,
             columnDefs = list(
-                    list(
-                      targets = c(1,2,3),
-                      className = 'dt-center'
-                    )
-                  )
+              list(
+                targets = c(1, 2, 3),
+                className = "dt-center"
+              )
             )
-        
-        ) |> 
+          )
+        ) |>
         DT::formatPercentage(columns = 3)
-      
     })
-    
-    
-    
-    observeEvent(input$player_dt_rows_selected,ignoreNULL = TRUE,{
-      
-      selected_row <- data$get_players_stats_table(globalFilters$filter$selected_team,
-                                                   globalFilters$filter$selected_seasons,
-                                                   globalFilters$filter$selected_gametype) |> 
 
-        dplyr::slice(as.integer(input$player_dt_rows_selected)) 
-      
-      
-      internalFilters$set_filter('player_dt_name', selected_row$Player)
-      
-      
- 
-      
+
+
+    observeEvent(input$player_dt_rows_selected, ignoreNULL = TRUE, {
+      selected_row <- data$get_players_stats_table(
+        globalFilters$filter$selected_team,
+        globalFilters$filter$selected_seasons,
+        globalFilters$filter$selected_gametype
+      ) |>
+        dplyr::slice(as.integer(input$player_dt_rows_selected))
+
+
+      internalFilters$set_filter("player_dt_name", selected_row$Player)
     })
- 
   })
 }
-    
+
 ## To be copied in the UI
 # mod_comp_players_dt_ui("comp_players_dt_1")
-    
+
 ## To be copied in the server
 # mod_comp_players_dt_server("comp_players_dt_1")

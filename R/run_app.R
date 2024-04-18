@@ -8,12 +8,11 @@
 #' @importFrom shiny shinyApp
 #' @importFrom golem with_golem_options
 run_app <- function(
-  onStart = purrr::partial(eval, expr = global, envir = globalenv()),
-  options = list(),
-  enableBookmarking = NULL,
-  uiPattern = "/",
-  ...
-) {
+    onStart = purrr::partial(eval, expr = global, envir = globalenv()),
+    options = list(),
+    enableBookmarking = NULL,
+    uiPattern = "/",
+    ...) {
   with_golem_options(
     app = shinyApp(
       ui = app_ui,
@@ -29,17 +28,14 @@ run_app <- function(
 
 
 global <- quote({
-  
-  
-  cat('Application started!')
-  
-  DATA_PATH <- paste0('./data/')
-  
-  
-  nba_teams_lu <- readRDS(paste0(DATA_PATH, 'nba_teams_lu.Rds'))
- 
-  free_throws <- readRDS(paste0(DATA_PATH, 'free_throws.Rds'))
-  
-  players_lu <- readRDS(paste0(DATA_PATH, 'players_lu.Rds'))
-  
+  cat("Application started!")
+
+  DATA_PATH <- paste0("./data/")
+
+
+  nba_teams_lu <- readRDS(paste0(DATA_PATH, "nba_teams_lu.Rds"))
+
+  free_throws <- readRDS(paste0(DATA_PATH, "free_throws.Rds"))
+
+  players_lu <- readRDS(paste0(DATA_PATH, "players_lu.Rds"))
 })
