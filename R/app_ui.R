@@ -42,7 +42,11 @@ app_ui <- function(request) {
       ),
       sidebar = dashboardSidebar(disable = TRUE),
       dark = NULL,
-      help = NULL
+      help = NULL,
+      preloader = list(
+        html = tagList(waiter::spin_ball()),
+        color = '#17408B'
+      )
     )
   )
 }
