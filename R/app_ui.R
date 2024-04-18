@@ -28,7 +28,7 @@ app_ui <- function(request) {
           fixed = TRUE
         ),
       body = dashboardBody(
-        fluidRow(mod_filters_highlights_ui("filters")),
+        fluidRow(mod_filters_global_ui("filters")),
         tabItems(
           tabItem(
             tabName = "highlights",
@@ -45,7 +45,7 @@ app_ui <- function(request) {
       help = NULL,
       preloader = list(
         html = tagList(waiter::spin_ball()),
-        color = '#17408B'
+        color = "#576270"
       )
     )
   )

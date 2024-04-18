@@ -12,7 +12,6 @@ mod_page_deepdive_ui <- function(id) {
   tagList(
     mod_comp_ft_accuracy_by_time_ui(ns("ft_by_time")),
     mod_comp_best_and_worst_shooters_ui(ns("best_worst_shooters"))
-    
   )
 }
 
@@ -25,7 +24,7 @@ mod_page_deepdive_server <- function(id, data, globalFilters) {
 
 
     mod_comp_ft_accuracy_by_time_server("ft_by_time", data, globalFilters)
-    
+
     mod_comp_best_and_worst_shooters_server("best_worst_shooters", data, globalFilters)
   })
 }

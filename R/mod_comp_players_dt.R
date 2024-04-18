@@ -76,9 +76,3 @@ mod_comp_players_dt_server <- function(id, data, globalFilters, internalFilters)
     })
   })
 }
-
-## To be copied in the UI
-# mod_comp_players_dt_ui("comp_players_dt_1")
-
-## To be copied in the server
-# mod_comp_players_dt_server("comp_players_dt_1")

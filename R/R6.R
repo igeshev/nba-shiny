@@ -190,7 +190,7 @@ dataManager <- R6::R6Class(
         dplyr::distinct() |>
         dplyr::pull(player_id)
     },
-    get_ft_accuracy_by_time = function(team, selected_seasons, selected_gametype, player_names=NULL) {
+    get_ft_accuracy_by_time = function(team, selected_seasons, selected_gametype, player_names = NULL) {
       team_abb <- self$get_team_abbreviation(team)
 
       print(player_names)
@@ -199,27 +199,27 @@ dataManager <- R6::R6Class(
           shooting_team == team_abb,
           season %in% selected_seasons,
           playoffs %in% selected_gametype
-        ) 
-      if(!is.null(player_names)){
-        data <- data  |> 
+        )
+      if (!is.null(player_names)) {
+        data <- data |>
           dplyr::filter(player %in% player_names)
       }
-      
-      data <- data |> 
+
+      data <- data |>
         dplyr::mutate(time = lubridate::ms(time) + ((period - 1) * lubridate::ms("12:00"))) |>
         dplyr::mutate(rounded_time = lubridate::minute(time) + (lubridate::second(time) >= 30) * 1) |>
-        dplyr::group_by(season, rounded_time, shooting_team) 
-      
-      if(!is.null(player_names)){
-        data <- data  |> dplyr::group_by(player, period, shooting_team)
+        dplyr::group_by(season, rounded_time, shooting_team)
+
+      if (!is.null(player_names)) {
+        data <- data |> dplyr::group_by(player, period, shooting_team)
       }
-      
-      data <- data |> 
+
+      data <- data |>
         dplyr::summarise(
           shots_accuracy = (sum(shot_made) / sum(!is.na(shot_made)) * 100),
           .groups = "drop"
-        ) |> 
-      print()
+        ) |>
+        print()
     }
   )
 )

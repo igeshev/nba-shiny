@@ -104,9 +104,3 @@ mod_comp_player_card_server <- function(id, data, globalFilters, internalFilters
     })
   })
 }
-
-## To be copied in the UI
-# mod_comp_player_card_ui("comp_player_card_1")
-
-## To be copied in the server
-# mod_comp_player_card_server("comp_player_card_1")

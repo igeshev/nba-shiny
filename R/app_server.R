@@ -24,7 +24,7 @@ app_server <- function(input, output, session) {
       selected_gametype = c("regular", "playoffs")
     )
   )
-  mod_filters_highlights_server("filters", nba_data, globalFilters)
+  mod_filters_global_server("filters", nba_data, globalFilters)
 
   # Page ----
   mod_page_highlights_server("highlights", nba_data, globalFilters)

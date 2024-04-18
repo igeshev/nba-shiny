@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_filters_highlights_ui <- function(id) {
+mod_filters_global_ui <- function(id) {
   ns <- NS(id)
   tagList(
     bs4Dash::box(
@@ -75,7 +75,7 @@ mod_filters_highlights_ui <- function(id) {
 #' filters_highlights Server Functions
 #'
 #' @noRd
-mod_filters_highlights_server <- function(id, data, globalFilters) {
+mod_filters_global_server <- function(id, data, globalFilters) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 

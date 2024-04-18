@@ -86,9 +86,3 @@ mod_comp_last_games_server <- function(id, data, globalFilters) {
     })
   })
 }
-
-## To be copied in the UI
-# mod_comp_last_games_ui("comp_last_games_1")
-
-## To be copied in the server
-# mod_comp_last_games_server("comp_last_games_1")
