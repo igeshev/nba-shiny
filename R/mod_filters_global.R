@@ -32,6 +32,10 @@ mod_filters_global_ui <- function(id) {
             label = "Select Season",
             choices = NULL,
             multiple = TRUE
+          ),
+          fluidRow(
+            class = "my_warning",
+            textOutput(ns('seasons_empty_warn'))
           )
         ),
         column(
@@ -42,7 +46,12 @@ mod_filters_global_ui <- function(id) {
             choices = c("regular", "playoffs"),
             multiple = TRUE,
             selected = c("regular", "playoffs")
+          ),
+          fluidRow(
+            class = "my_warning",
+            textOutput(ns('gametype_empty_warn'))
           )
+
         ),
         column(
           2,
@@ -78,6 +87,25 @@ mod_filters_global_ui <- function(id) {
 mod_filters_global_server <- function(id, data, globalFilters) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+    
+    
+    output$seasons_empty_warn <- renderText({
+      if(!isTruthy(input$selected_seasons)){
+        "Season field cannot be empty"
+      }else{
+        "⠀"
+      }
+    })
+    
+    
+    output$gametype_empty_warn <- renderText({
+      if(!isTruthy(input$selected_gametype)){
+        "Game Type field cannot be empty"
+      }else{
+        "⠀"
+      }
+    })
+    
 
 
     updateSelectInput(
@@ -109,6 +137,10 @@ mod_filters_global_server <- function(id, data, globalFilters) {
 
 
     observeEvent(input$apply_changes, {
+      req(input$selected_team,
+          input$selected_seasons,
+          input$selected_gametype)
+      
       # Save selected filters to globally available R6 Class
       globalFilters$filter$selected_team <- input$selected_team
       globalFilters$filter$selected_seasons <- input$selected_seasons

@@ -1,0 +1,14 @@
+{
+  "input": {
+    "filters-highlights_filters": {
+      "collapsible": true,
+      "collapsed": false,
+      "closable": false,
+      "visible": true,
+      "maximizable": false,
+      "maximized": false,
+      "solidHeader": true,
+      "width": 12
+    }
+  }
+}

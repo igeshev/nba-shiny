@@ -10,3 +10,5 @@ library(testthat)
 library(nba.dashboard)
 
 test_check("nba.dashboard")
+
+shinytest2::test_app(app_dir = golem::get_golem_wd())

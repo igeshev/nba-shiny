@@ -11,6 +11,16 @@
   src: url(nba-lakers.ttf) format("truetype");
 }
 
+/* warnings */
+.my_warning{
+  color:red;
+  font-weight: bold;
+  
+}
+
+
+
+
 div[id^='highlights-filters-highlights_filters'] .card-body{
   min-height: 200px;
 }
