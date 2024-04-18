@@ -139,17 +139,17 @@ mod_comp_best_and_worst_shooters_server <- function(id, data, globalFilters) {
       tagList(
         fluidRow(
           column(
-            2,
+            3,
             strong("Best Shooters"),
             DT::DTOutput(ns("best_shooters_dt"))
           ),
           column(
-            2,
+            3,
             strong("Worst Shooters"),
             DT::DTOutput(ns("worst_shooters_dt"))
           ),
           column(
-            8,
+            6,
             plotly::plotlyOutput(ns("ft_players_best_worst"))
           )
         )
