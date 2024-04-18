@@ -12,6 +12,7 @@ Imports:
     golem (>= 0.4.1),
     hoopR,
     janitor,
+    lubridate,
     pkgload,
     plotly,
     renv,

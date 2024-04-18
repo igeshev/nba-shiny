@@ -11,15 +11,19 @@ mod_page_deepdive_ui <- function(id){
   ns <- NS(id)
   tagList(
  
+    mod_comp_ft_accuracy_by_time_ui(ns('ft_by_time'))
   )
 }
     
 #' page_deepdive Server Functions
 #'
 #' @noRd 
-mod_page_deepdive_server <- function(id){
+mod_page_deepdive_server <- function(id, data, globalFilters){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+    
+    
+    mod_comp_ft_accuracy_by_time_server('ft_by_time', data, globalFilters)
  
   })
 }

@@ -36,10 +36,10 @@ global <- quote({
   DATA_PATH <- paste0('./data/')
   
   
-  nba_teams_lu <- read.csv(paste0(DATA_PATH, 'nba_teams_lu.csv'))
+  nba_teams_lu <- readRDS(paste0(DATA_PATH, 'nba_teams_lu.Rds'))
  
-  free_throws <- read.csv(paste0(DATA_PATH, 'free_throws.csv'))
+  free_throws <- readRDS(paste0(DATA_PATH, 'free_throws.Rds'))
   
-  players_lu <- read.csv(paste0(DATA_PATH, 'players_lu.csv'))
+  players_lu <- readRDS(paste0(DATA_PATH, 'players_lu.Rds'))
   
 })

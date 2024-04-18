@@ -7,3 +7,4 @@
 .RData
 .Rprofile
 *.Rproj
+data/*.csv

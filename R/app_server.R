@@ -29,6 +29,6 @@ app_server <- function(input, output, session) {
   
   # Page ----
   mod_page_highlights_server('highlights', nba_data, globalFilters)
-  mod_page_deepdive_server('deepdive')
+  mod_page_deepdive_server('deepdive', nba_data, globalFilters)
   
 }
